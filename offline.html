@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каменный прикол (офлайн)</title>
+    <link rel="stylesheet" href="/my-pwa/style.css">
+    <link rel="manifest" href="/my-pwa/manifest.json">
+</head>
+<body>
+    <header>
+        <h1>Каменный прикол</h1>
+    </header>
+    <main>
+        <div class="offline-content">
+            <h2>Ой, кажется вы офлайн!</h2>
+            <p>Но не переживайте, основные функции доступны без интернета</p>
+            <p>Попробуйте:</p>
+            <ul>
+                <li><a href="/my-pwa/">Главная страница</a></li>
+                <li><a href="/my-pwa/sad_stones.html">Грустные камни</a></li>
+                <li><a href="/my-pwa/funny_stones.html">Смешные камни</a></li>
+            </ul>
+            <button id="reloadBtn">Попробовать снова</button>
+        </div>
+    </main>
+    <footer>
+        &copy; 2025 Каменный прикол
+    </footer>
+
+    <script>
+        document.getElementById('reloadBtn').addEventListener('click', () => {
+            window.location.reload();
+        });
+    </script>
+</body>
+</html>

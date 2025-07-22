@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <!-- PWA Required Meta Tags -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#000000">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <meta name="theme-color" content="#5a3921">
+    <meta name="description" content="Лучшая коллекция камней с характером">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
-    <!-- Manifest -->
-    <link rel="manifest" href="/manifest.json">
-    
-    <!-- Favicon -->
-    <link rel="icon" href="/icons/icon192.png" type="image/png">
+    <link rel="manifest" href="/my-pwa/manifest.json">
+    <link rel="icon" href="/my-pwa/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" href="/my-pwa/icons/icon-192x192.png">
     
     <title>Каменный прикол</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/my-pwa/style.css">
 </head>
 <body>
-    <!-- Ваше содержимое остается без изменений -->
     <header>
         <h1>Добро пожаловать на сайт камней!</h1>
     </header>
     <nav>
         <ul>
-            <li><a href="/">Главная</a></li>
-            <li><a href="/sad_stones.html">Топ 5 грустных камней</a></li>
-            <li><a href="/funny_stones.html">Топ 5 смешных камней</a></li>
-            <li><a href="/weird_stones.html">Топ 5 необычных камней</a></li>
-            <li><a href="/feedback.html">Обратная связь</a></li>
+            <li><a href="/my-pwa/">Главная</a></li>
+            <li><a href="/my-pwa/sad_stones.html">Топ 5 грустных камней</a></li>
+            <li><a href="/my-pwa/funny_stones.html">Топ 5 смешных камней</a></li>
+            <li><a href="/my-pwa/weird_stones.html">Топ 5 необычных камней</a></li>
+            <li><a href="/my-pwa/feedback.html">Обратная связь</a></li>
         </ul>
     </nav>
     <main>
@@ -34,27 +33,46 @@
         <p>В мире камней больше 2-х!</p>
         
         <div class="main-gallery">
-            <div class="main-stone"><img src="/images/main_1.jpg" alt="Камень №1"></div>
-            <div class="main-stone"><img src="/images/main_2.jpg" alt="Камень №2"></div>
-            <div class="main-stone"><img src="/images/main_3.jpg" alt="Камень №3"></div>
+            <div class="main-stone"><img src="/my-pwa/images/main_1.jpg" alt="Камень №1" loading="lazy"></div>
+            <div class="main-stone"><img src="/my-pwa/images/main_2.jpg" alt="Камень №2" loading="lazy"></div>
+            <div class="main-stone"><img src="/my-pwa/images/main_3.jpg" alt="Камень №3" loading="lazy"></div>
         </div>
     </main>
     <footer>
         &copy; 2025 Каменный прикол
     </footer>
 
-    <!-- Service Worker Registration -->
     <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                // Используем абсолютный путь к sw.js
-                navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                        console.log('ServiceWorker зарегистрирован:', registration.scope);
-                    })
-                    .catch(function(error) {
-                        console.log('Ошибка регистрации ServiceWorker:', error);
-                    });
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/my-pwa/sw.js')
+                    .then(reg => console.log('SW registered:', reg))
+                    .catch(err => console.log('SW registration failed:', err));
+            });
+        }
+        
+        // Обработка установки PWA
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallPromo();
+        });
+        
+        function showInstallPromo() {
+            const installPromo = document.createElement('div');
+            installPromo.className = 'install-promo';
+            installPromo.innerHTML = `
+                <p>Установите приложение для быстрого доступа!</p>
+                <button id="installBtn">Установить</button>
+            `;
+            document.body.appendChild(installPromo);
+            
+            document.getElementById('installBtn').addEventListener('click', () => {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then(() => {
+                    installPromo.remove();
+                });
             });
         }
     </script>

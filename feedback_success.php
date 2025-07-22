@@ -6,8 +6,11 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#5a3921">
+    <link rel="manifest" href="/my-pwa/manifest.json">
+    <link rel="icon" href="/my-pwa/icons/icon-192x192.png">
     <title>Спасибо за отзыв!</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/my-pwa/style.css">
 </head>
 <body>
     <header>
@@ -15,44 +18,36 @@ session_start();
     </header>
     <nav>
         <ul>
-            <li><a href="index.html">Главная</a></li>
-            <li><a href="sad_stones.html">Топ 5 грустных камней</a></li>
-            <li><a href="funny_stones.html">Топ 5 смешных камней</a></li>
-            <li><a href="weird_stones.html">Топ 5 необычных камней</a></li>
-            <li><a href="feedback.html">Обратная связь</a></li>
+            <li><a href="/my-pwa/">Главная</a></li>
+            <li><a href="/my-pwa/sad_stones.html">Топ 5 грустных камней</a></li>
+            <li><a href="/my-pwa/funny_stones.html">Топ 5 смешных камней</a></li>
+            <li><a href="/my-pwa/weird_stones.html">Топ 5 необычных камней</a></li>
+            <li><a href="/my-pwa/feedback.html">Обратная связь</a></li>
         </ul>
     </nav>
     <main>
         <div class="success-message">
             <p>Ваше сообщение успешно отправлено. Мы ценим ваш вклад в развитие нашего каменного сообщества!</p>
             
+            <?php if (isset($_SESSION['current_feedback'])): ?>
             <div class="feedback-display">
                 <h3>Ваш отзыв:</h3>
-                <p><strong>ФИО:</strong> <?php echo htmlspecialchars($_SESSION['current_feedback']['fullname']); ?></p>
-                <p><strong>Email:</strong> <?php echo htmlspecialchars($_SESSION['current_feedback']['email']); ?></p>
-                <p><strong>Комментарий:</strong> <?php echo nl2br(htmlspecialchars($_SESSION['current_feedback']['comment'])); ?></p>
-            </div>
-            
-            <?php if (!empty($_SESSION['recent_feedback'])): ?>
-            <div class="recent-feedback">
-                <h3>Последние отзывы:</h3>
-                <ul>
-                    <?php foreach ($_SESSION['recent_feedback'] as $feedback): ?>
-                    <li>
-                        <p><strong><?php echo htmlspecialchars($feedback['fullname']); ?></strong> (<?php echo htmlspecialchars($feedback['email']); ?>)</p>
-                        <p><?php echo nl2br(htmlspecialchars($feedback['comment'])); ?></p>
-                        <small><?php echo $feedback['reg_date']; ?></small>
-                    </li>
-                    <?php endforeach; ?>
-                </ul>
+                <p><strong>ФИО:</strong> <?= htmlspecialchars($_SESSION['current_feedback']['fullname']) ?></p>
+                <p><strong>Email:</strong> <?= htmlspecialchars($_SESSION['current_feedback']['email']) ?></p>
+                <p><strong>Комментарий:</strong> <?= nl2br(htmlspecialchars($_SESSION['current_feedback']['comment'])) ?></p>
             </div>
             <?php endif; ?>
             
-            <a href="index.html" class="home-button">Вернуться на главную</a>
+            <a href="/my-pwa/index.html" class="home-button">Вернуться на главную</a>
         </div>
     </main>
     <footer>
         &copy; 2025 Каменный прикол
     </footer>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/my-pwa/sw.js');
+        }
+    </script>
 </body>
 </html>
